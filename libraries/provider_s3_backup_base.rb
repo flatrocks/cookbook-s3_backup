@@ -68,7 +68,6 @@ class Chef
         end
 
         def action_delete
-
           user_home = "/home/#{new_resource.user}"
           user new_resource.user do
             home user_home
@@ -94,7 +93,7 @@ class Chef
           end
         end
 
-      end # class Base
+      end
     end
   end
 end

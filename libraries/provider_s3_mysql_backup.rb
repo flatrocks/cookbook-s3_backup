@@ -60,25 +60,12 @@ class Chef
         end
 
         def action_delete
-          super
 
-          user_home = "/home/#{new_resource.user}"
-          user new_resource.user do
-            home user_home
-            action :remove
+          mysql_database_user new_resource.user do
+            action :drop
           end
 
-          new_resource.groups.each do |group|
-            group "group #{group} appending user #{new_resource.user}" do
-              group_name group
-              append true
-              excluded_members [new_resource.user]
-              ignore_failure true
-              action :modify
-            end
-          end
-
-          directory ::File.join(user_home, "temp") do
+          template ::File.join(user_home, ".my.cnf") do
             action :delete
           end
 
@@ -97,9 +84,11 @@ class Chef
             ignore_failure true
             action delete
           end
+
+          super
         end
 
-      end # class FileBackup
+      end
     end
   end
 end
