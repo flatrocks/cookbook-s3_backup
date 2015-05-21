@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS db1;
+USE db1;
+DROP TABLE IF EXISTS table1;
+CREATE TABLE table1 (
+  `name` varchar(255) NOT NULL
+);
+
+CREATE DATABASE IF NOT EXISTS db2;
+USE db2;
+DROP TABLE IF EXISTS table1;
+CREATE TABLE table1 (
+  `name` varchar(255) NOT NULL
+);
+DROP TABLE IF EXISTS table2;
+CREATE TABLE table2 (
+  `name` varchar(255) NOT NULL
+);

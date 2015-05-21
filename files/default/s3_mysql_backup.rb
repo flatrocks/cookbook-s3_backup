@@ -19,8 +19,11 @@ begin
   tar, s3, log, assets = config['tar'], config['s3'], config['log'], config['assets']
 
   assets.each do |asset|
-    path = asset['item']
+    path = "temp/#{asset['item'].split.first}.sql"
     dirname, basename = File.dirname(path), File.basename(path)
+
+    File.delete path if File.exists? path
+    run_system_command "mysqldump #{asset['item']} > #{path}"
 
     File.delete TEMP_TGZ_FILE if File.exists? TEMP_TGZ_FILE
     run_system_command "tar --directory=#{dirname} -cz --file=#{TEMP_TGZ_FILE} #{basename}"

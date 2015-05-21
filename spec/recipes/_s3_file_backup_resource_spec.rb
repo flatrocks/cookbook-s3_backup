@@ -69,10 +69,12 @@ describe "s3_backup::_s3_file_backup_resource" do
         "  key_prefix_format: '%d-%b-%Y'",
         "log:\n" +
         "  ident: s3_file_backup\n" +
-        "  success_message: \n" +
+        "  success_message: \n",
         "assets:\n" +
-        "  file: /some/file\n" +
-        "  file2: /another/file\n"
+        "- item: /some/file\n" +
+        "- item: /another/file\n" +
+        "- item: /yet_another/file\n" +
+        "  s3_prefix: a_prefix\n"
       ].each do |fragment|
         expect(subject).to render_file("/home/my_backup/config.yml").with_content fragment
       end
@@ -81,17 +83,17 @@ describe "s3_backup::_s3_file_backup_resource" do
 
   describe "the cron job" do
     it "is created" do
-      expect(subject).to create_cron("cron for my_backup")
+      expect(subject).to create_cron("cron for my_backup s3 file backup")
     end
     it "has the right user" do
-      expect(subject).to create_cron("cron for my_backup").with_user "my_backup"
+      expect(subject).to create_cron("cron for my_backup s3 file backup").with_user "my_backup"
     end
     it "has the right command" do
-      expect(subject).to create_cron("cron for my_backup").with_command "ruby s3_file_backup.rb"
+      expect(subject).to create_cron("cron for my_backup s3 file backup").with_command "ruby s3_file_backup.rb"
     end
     it "has the right scheduling attributes" do
-      expect(subject).to create_cron("cron for my_backup").with_day '*'
-      expect(subject).to create_cron("cron for my_backup").with_hour '10,14,16'
+      expect(subject).to create_cron("cron for my_backup s3 file backup").with_day '*'
+      expect(subject).to create_cron("cron for my_backup s3 file backup").with_hour '10,14,16'
     end
   end
 
