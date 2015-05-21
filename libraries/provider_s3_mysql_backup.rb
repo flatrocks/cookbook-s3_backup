@@ -65,7 +65,7 @@ class Chef
           user_home = "/home/#{new_resource.user}"
           user new_resource.user do
             home user_home
-            action :delete
+            action :remove
           end
 
           new_resource.groups.each do |group|
