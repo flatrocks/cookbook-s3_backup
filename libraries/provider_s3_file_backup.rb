@@ -7,6 +7,7 @@ class Chef
           super
 
           cookbook_file ::File.join(user_home, "s3_file_backup.rb") do
+            cookbook 's3_backup'
             user new_resource.user
             group new_resource.user
             mode "500"

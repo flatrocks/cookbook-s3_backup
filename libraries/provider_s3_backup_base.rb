@@ -21,6 +21,7 @@ class Chef
 
           user new_resource.user do
             home user_home
+            manage_home true
             action :create
           end
 
@@ -49,7 +50,7 @@ class Chef
               'access_key_id' => new_resource.s3_access_key_id,
               'secret_access_key' => new_resource.s3_secret_access_key,
               'bucket' => new_resource.s3_bucket,
-              'key_prefix_format' => new_resource.s3_key_prefix_format
+              'time_prefix' => new_resource.time_prefix
             },
             'log' => {
               'ident' => new_resource.log_ident,

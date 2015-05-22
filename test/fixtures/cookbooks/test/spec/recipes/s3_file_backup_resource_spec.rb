@@ -1,6 +1,6 @@
 require_relative "../spec_helper"
 
-describe "s3_backup::_s3_file_backup_resource" do
+describe "test::s3_file_backup_resource" do
 
   subject { ChefSpec::SoloRunner.new(:step_into => ["s3_file_backup"]) do |node|
   end.converge(described_recipe) }
@@ -66,7 +66,7 @@ describe "s3_backup::_s3_file_backup_resource" do
         "  access_key_id: my_access_key_id\n" +
         "  secret_access_key: my_secret_access_key\n" +
         "  bucket: my_bucket\n" +
-        "  key_prefix_format: '%d-%b-%Y'",
+        "  time_prefix: '%d-%b-%Y'",
         "log:\n" +
         "  ident: s3_file_backup\n" +
         "  success_message: \n",

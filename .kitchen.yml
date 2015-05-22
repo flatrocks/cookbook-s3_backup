@@ -6,11 +6,16 @@ provisioner:
   name: chef_solo
 
 platforms:
-  - name: ubuntu-12.04
-  - name: centos-6.4
+  - name: ubuntu-14.04
 
 suites:
-  - name: default
+  - name: test
     run_list:
-      - recipe[s3_asset_backup::default]
+      - recipe[apt]
+      - recipe[test::kitchen_file_test]
+      - recipe[test::kitchen_mysql_test]
     attributes:
+      test_s3_region: <%= ENV['TEST_S3_REGION'] %>
+      test_s3_bucket: <%= ENV['TEST_S3_BUCKET'] %>
+      test_s3_access_key_id: <%= ENV['TEST_S3_ACCESS_KEY_ID'] %>
+      test_s3_secret_access_key: <%= ENV['TEST_S3_SECRET_ACCESS_KEY'] %>

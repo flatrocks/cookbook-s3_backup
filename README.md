@@ -232,21 +232,33 @@ Note that this may not be up to date with the current AWS API and you may need t
 take additional steps to secure your backups.
 ```json
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:ListBucket",
-        "s3:PutObject"
-      ],
-      "Resource": [
-        "arn:aws:s3:::<bucket_name_here>/*"
-      ]
-    }
-  ]
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<bucket_name_here>"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<bucket_name_here>/*"
+            ]
+        }
+    ]
 }
 ```
+Note that the Resource for the first block is just the bucket name,
+but for the second block, it ends with "/*" indicating that it applies to the
+contents of the bucket.
 
 If it meets your needs, you can use the same AWS credentials for multiple
 resources, for example you may want to back up both files and MySQL data

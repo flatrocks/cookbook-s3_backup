@@ -1,0 +1,3 @@
+#!/bin/bash
+. /Volumes/RNRSecure/env_scripts/s3_test.sh
+kitchen $*

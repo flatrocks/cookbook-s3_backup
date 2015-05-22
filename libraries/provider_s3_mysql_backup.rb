@@ -31,6 +31,7 @@ class Chef
           end
 
           template ::File.join(user_home, ".my.cnf") do
+            cookbook 's3_backup'
             source 'my.cnf.erb'
             user new_resource.user
             group new_resource.user
@@ -44,6 +45,7 @@ class Chef
           end
 
           cookbook_file ::File.join(user_home, "s3_mysql_backup.rb") do
+            cookbook 's3_backup'
             user new_resource.user
             group new_resource.user
             mode "500"
