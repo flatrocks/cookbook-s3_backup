@@ -50,7 +50,7 @@ class Chef
               'access_key_id' => new_resource.s3_access_key_id,
               'secret_access_key' => new_resource.s3_secret_access_key,
               'bucket' => new_resource.s3_bucket,
-              'time_prefix' => new_resource.time_prefix
+              'time_prefix' => new_resource.s3_time_prefix
             },
             'log' => {
               'ident' => new_resource.log_ident,

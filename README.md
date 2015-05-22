@@ -38,11 +38,11 @@ The S3 bucket to back up into.
 The S3 access_key_id.
 * __s3_secret_access_key__ - kind_of: String, required: true.
 The S3 secret_access_key.
-* __s3_date_prefix__ - kind_of: String,, default: '%d-%b-%Y'.
-The prefix used with each saved object name.
-This string is processed using the Ruby Time.strftime() function so this
-prefix is useful to name backups by date, etc.
-For example, the default might resolve to this: "20-May-2015",
+* __s3_time_prefix__ - kind_of: String,, default: '%d-%b-%Y'.
+The s3_time_prefix is processed using the Ruby Time.strftime() function
+and prepended to each saved object name.
+The usual usage is to provide a date prefix for a daily backup.
+For example, on May 20th, 2015, the default will resolve to: "20-May-2015".
 See Ruby Time.strftime() docs for more examples.
 
 __Logging:__

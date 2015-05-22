@@ -31,8 +31,8 @@ class Chef
         def s3_secret_access_key(arg = nil)
           set_or_return :s3_secret_access_key, arg, kind_of: String, required: true
         end
-        def time_prefix(arg = nil)
-          set_or_return :time_prefix, arg, kind_of: String, default: '%d-%b-%Y'
+        def s3_time_prefix(arg = nil)
+          set_or_return :s3_time_prefix, arg, kind_of: String, default: '%d-%b-%Y'
         end
 
         def log_ident(arg = nil)
