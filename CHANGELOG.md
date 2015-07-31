@@ -7,6 +7,11 @@ This file is used to list changes made in each version of the s3_asset_backup co
 -----
 - [your_name] - Initial release of s3_asset_backup
 
+0.2.0
+-----
+- Significant mods to the configuration of asstes to be backed up.
+- Added option to backup multiple databases using a name prefix ending in '*'
+
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
 

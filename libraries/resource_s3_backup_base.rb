@@ -15,10 +15,6 @@ class Chef
           set_or_return :groups, arg, kind_of: Array, default: []
         end
 
-        def tar_flatten_path(arg = true)
-          set_or_return :tar_flatten_path, arg, kind_of: [TrueClass, FalseClass], default: true
-        end
-
         def s3_region(arg = nil)
           set_or_return :s3_region, arg, kind_of: String, required: true
         end
@@ -46,8 +42,8 @@ class Chef
           set_or_return :cron, arg, kind_of: Hash, default: Hash.new
         end
 
-        def assets(arg = nil)
-          set_or_return :assets, arg, kind_of: Array, default: []
+        def backup_groups(arg = nil)
+          set_or_return :assets, arg, kind_of: Hash, default: Hash.new
         end
       end
 

@@ -45,6 +45,19 @@ The usual usage is to provide a date prefix for a daily backup.
 For example, on May 20th, 2015, the default will resolve to: "20-May-2015".
 See Ruby Time.strftime() docs for more examples.
 
+__Backup groups:__
+* __backup_groups__ - kind_of: Hash, default: Hash.new.
+This is where you define what assets you want backed up.
+
+Each key is the name of a "backup group".
+The backup group name will be used as an s3_key path segment, after the resolved s3_time_prefix and before the asset name.
+The exception is that the "default" backup group will skip adding this additional s3_key segment.
+
+Each value is an array of assets to back up.
+The meaning and format of the array items differs
+for file backups and mysql backups.
+See notes in each section for details.
+
 __Logging:__
 * __log_ident__ - kind_of: String,, default: 's3_file_backup.
 This is the "ident" string used when logging to the system log,
@@ -87,13 +100,9 @@ Then each object is saved to S3 storage as directed by the resource configuratio
 All of the attributes listed in "Common attributes" apply to this resource.
 The following additional attributes are specific to s3_file_backup.
 
-__Assets:__
-* __assets__ - kind_of: Array, default: [].
-This is where you define what files and directories you want backed up.
-This attribute must be an Array of Hashes.
-Each Hash must contain an "item" key, and its value is the relative or absolute path to a file or directory to back up.
-Each Hash may optionally contain a "prefix" key.
-Its value will be used to create the S3 object key.
+__Backup_groups:__
+Each item in a backup group's array of assets is a file path to a file or directory
+to back up.  The path can be relative or absolute.
 
 #### Full example
 
@@ -103,10 +112,7 @@ s3_file_backup 'my_backup' do
   s3_bucket 'my_bucket'
   s3_access_key_id 'my_access_key_id'
   s3_secret_access_key 'my_secret_access_key'
-  assets [
-    {'item' => '/some/file'},
-    {'item' => '/another/file', 'prefix' => 'another'}
-  ]
+  backup_groups default: ['/some/file'], x: '/another/file'
   groups ['group1', 'group2']
   action :create
   cron day: '*', hour: '10,14,16'
@@ -116,12 +122,11 @@ end
 This backup should create three S3 objects in the s3 bucket 'my_bucket'
 under the specified S3 account.  Assuming today's date is May 20th, 2015,
 the objects will be named:
-* ```20-May-2015/file.tgz```
-* ```20-May-2015/another/file.tgz```
+* ```20-May-2015/file.tgz```  _(no extra name segment for default group)_
+* ```20-May-2015/x/file.tgz```  _(extra 'x' segment in s3 object name, from the backup group name)_
 
-This example points out the value of being able to set the asset item prefix:
-it allows for organizing and saving items that might otherwise have the same names.
-
+This example points out the value of using multiple backup_groups:
+it allows for organizing and saving items that might otherwise have the same s3 object names.
 ### The s3_mysql_backup resource
 
 #### Description
@@ -156,22 +161,14 @@ Please refer to that cookbooks's documentation for details.
 * __mysql_user__ kind_of: String, required: true.
 * __mysql_password__ kind_of: String, default: nil
 
-__Assets:__
-* __assets__ - kind_of: Array, default: [].
-This is where you define what databases and tables you want backed up.
-This attribute must be an Array of Hashes.
-Each Hash must contain an "item" key, and its value is a string specifying the database,
-and optionally, the tables, to back up.
-Each Hash may optionally contain a "prefix" key.
-Its value will be used to create the S3 object key.
-
-An asset "item" value to back up a complete database is simply the name of the database.
-To back up only specified tables, append a blank-delimited list of table names to the
-"item" value.  For example, an item value of
-```
-"database1 table1 table3"
-```
-would back up only table1 and table3 from database1.
+__Backup_groups:__
+Each item in a backup group's array of assets is a string defining a full or partial database to backup.
+* If just a database name is included, (e.g _"database1"_,) then the complete database is backed up.
+* If a database name is followed bt one or more table names, (e.g _"database1 table1 table3"_,)
+then only the selected tables are included in the backup.
+* If a database name ends in an asterisk, (e.g _"database*"_,) then the asset list is expanded to
+include all accessible databases taht begin with the prefix (in this case, _"database"_).
+Using this option will apply any table list to each database in the expanded list.
 
 #### Full example
 
@@ -185,23 +182,19 @@ s3_mysql_backup 'my_backup' do
   mysql_user 'user1'
   mysql_password 'some_password'
   groups ['group1', 'group2']
-  assets [
-    {'item' => 'db1'},
-    {'item' => 'db2 table1 table2'}
-  ]
+  backup_groups default: ['db1', 'db2 table1 table2'], x: ['dbx*']
   cron day: '*', hour: '10,14,16'
   action :create
 end
 ```
 
-This backup should create two S3 objects in the s3 bucket 'my_bucket'
+This backup should create several S3 objects in the s3 bucket 'my_bucket'
 under the specified S3 account.  Assuming today's date is May 20th, 2015,
 the objects will be named:
-* ```20-May-2015/db1.sql.tgz```
-* ```20-May-2015/another/db2.sql.tgz```
-
-The first item contins the entire database dump of db1.
-The second item contains only table1 and table2 from db2.
+* ```20-May-2015/db1.sql.tgz```  _(contains the entire database dump of db1)_
+* ```20-May-2015/db2.sql.tgz```  _(contains only table1 and table2 from db2)_
+And an object for each database with name that begins with "dbx," for example,"
+* ```20-May-2015/x/dbx1.sql.tgz```
 
 ## Notes
 

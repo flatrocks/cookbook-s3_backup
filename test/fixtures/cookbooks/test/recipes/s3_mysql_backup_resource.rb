@@ -12,10 +12,7 @@ s3_mysql_backup 'my_backup' do
   s3_bucket 'my_bucket'
   s3_access_key_id 'my_access_key_id'
   s3_secret_access_key 'my_secret_access_key'
-  assets [
-    {'item' => 'db1'},
-    {'item' => 'db2 table1 table2'}
-  ]
+  backup_groups 'default' => ['db1'], 'catalogs' => ['db2 table1 table2']
   mysql_connection host: '127.0.0.1', user: 'root', password: 'somepw'
   mysql_user 'user1'
   mysql_password 'some_password'

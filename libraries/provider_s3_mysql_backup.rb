@@ -18,15 +18,17 @@ class Chef
             privileges ['LOCK TABLES']
             action :grant
           end
-          new_resource.assets.each do |asset|
-            database = asset['item'].split.first
-            mysql_database_user "#{new_resource.user} on #{database}" do
-              connection new_resource.mysql_connection
-              username new_resource.mysql_user
-              password new_resource.mysql_password
-              database_name database
-              privileges [:select]
-              action :grant
+          new_resource.backup_groups.each do |keys, group_items|
+            group_items.each do |item|
+              database = item.split.first
+              mysql_database_user "#{new_resource.user} on #{database}" do
+                connection new_resource.mysql_connection
+                username new_resource.mysql_user
+                password new_resource.mysql_password
+                database_name database
+                privileges [:select]
+                action :grant
+              end
             end
           end
 

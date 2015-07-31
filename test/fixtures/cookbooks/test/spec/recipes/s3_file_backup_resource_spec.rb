@@ -59,9 +59,7 @@ describe "test::s3_file_backup_resource" do
     it "has the right content" do
       # each element, but not testing line order :-/
       [
-        "tar:\n" +
-        "  flatten_path: true\n",
-        "s3:\n" +
+         "s3:\n" +
         "  region: us-east-1\n" +
         "  access_key_id: my_access_key_id\n" +
         "  secret_access_key: my_secret_access_key\n" +
@@ -70,11 +68,11 @@ describe "test::s3_file_backup_resource" do
         "log:\n" +
         "  ident: s3_file_backup\n" +
         "  success_message: \n",
-        "assets:\n" +
-        "- item: /some/file\n" +
-        "- item: /another/file\n" +
-        "- item: /yet_another/file\n" +
-        "  s3_prefix: a_prefix\n"
+        "backup_groups:\n" +
+        "  default:\n" +
+        "  - /some/file\n" +
+        "  a_prefix:\n" +
+        "  - /yet_another/file\n"
       ].each do |fragment|
         expect(subject).to render_file("/home/my_backup/config.yml").with_content fragment
       end

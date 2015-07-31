@@ -42,9 +42,6 @@ class Chef
           end
 
           config_yml_content = {
-            'tar' => {
-              'flatten_path' => new_resource.tar_flatten_path
-            },
             's3' => {
               'region' => new_resource.s3_region,
               'access_key_id' => new_resource.s3_access_key_id,
@@ -56,7 +53,7 @@ class Chef
               'ident' => new_resource.log_ident,
               'success_message' => new_resource.log_success_message
             },
-            'assets' => new_resource.assets
+            'backup_groups' => new_resource.backup_groups
           }.to_yaml
           file ::File.join(user_home, "config.yml") do
             user new_resource.user

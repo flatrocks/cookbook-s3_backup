@@ -12,11 +12,7 @@ s3_file_backup 'my_backup' do
   s3_bucket 'my_bucket'
   s3_access_key_id 'my_access_key_id'
   s3_secret_access_key 'my_secret_access_key'
-  assets [
-    {'item' => '/some/file'},
-    {'item' => '/another/file'},
-    {'item' => '/yet_another/file', 's3_prefix' => 'a_prefix'}
-  ]
+  backup_groups 'default' => ['/some/file'], 'a_prefix' => ['/yet_another/file']
   groups ['group1', 'group2']
   action :create
   cron day: '*', hour: '10,14,16'
