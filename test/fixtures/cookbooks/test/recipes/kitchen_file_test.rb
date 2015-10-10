@@ -37,10 +37,7 @@ s3_file_backup 'my_file_backup' do
   s3_bucket node['test_s3_bucket']
   s3_access_key_id node['test_s3_access_key_id']
   s3_secret_access_key node['test_s3_secret_access_key']
-  assets [
-    {'item' => '/some/file'},
-    {'item' => '/another/file', 'prefix' => 'another'}
-  ]
+  backup_groups 'default' => ['/var/lib/awstats']
   groups ['group1', 'group2']
   cron soon_cron
   log_success_message "file test works!"

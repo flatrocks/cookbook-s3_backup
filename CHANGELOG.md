@@ -12,6 +12,10 @@ This file is used to list changes made in each version of the s3_asset_backup co
 - Significant mods to the configuration of asstes to be backed up.
 - Added option to backup multiple databases using a name prefix ending in '*'
 
+0.2.1
+-----
+- Removed use_inline_resources from provider base class because it somehow prevents the generation of actual base-defined resources when the node is built.
+
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
 

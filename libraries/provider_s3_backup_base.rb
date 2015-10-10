@@ -3,7 +3,9 @@ class Chef
     class S3Backup
       class Base < Chef::Provider::LWRPBase
 
-        use_inline_resources if defined?(use_inline_resources)
+        # DO NOT use_inline_resources if defined?(use_inline_resources) in the base class
+        # Even thougn the chefspec tests pass, somehow this prevents the resources from actually being generated.
+        # OK to use_inline_resources in each of the subclasses.
 
         def whyrun_supported?
           true

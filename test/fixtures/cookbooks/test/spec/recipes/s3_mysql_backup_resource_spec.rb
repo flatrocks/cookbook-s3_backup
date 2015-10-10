@@ -90,7 +90,7 @@ describe "test::s3_mysql_backup_resource" do
       expect(subject).to create_mysql_database_user('my_backup').with_connection :host=>"127.0.0.1", :user=>"root", :password=>"somepw"
     end
     it 'has lock table privilege' do
-      expect(subject).to grant_mysql_database_user('my_backup on *').with_database(nil).with_privileges ['LOCK TABLES']
+      expect(subject).to grant_mysql_database_user('my_backup on *').with_privileges ['LOCK TABLES']
     end
     it 'has select privileges for the required databases' do
       expect(subject).to grant_mysql_database_user('my_backup on db1').with_database_name('db1').with_privileges [:select]

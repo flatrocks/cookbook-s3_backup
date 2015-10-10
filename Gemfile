@@ -8,3 +8,7 @@ gem "json"
 
 gem "test-kitchen"
 gem "kitchen-vagrant"
+
+group :development, :test, :integration  do
+  gem 'byebug'
+end
