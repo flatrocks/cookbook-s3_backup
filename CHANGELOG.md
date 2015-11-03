@@ -16,6 +16,10 @@ This file is used to list changes made in each version of the s3_asset_backup co
 -----
 - Removed use_inline_resources from provider base class because it somehow prevents the generation of actual base-defined resources when the node is built.
 
+0.2.2
+-----
+- Fixed greivous error where the config.yml file was written with % as wildcard but the script file expected *.
+
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
 

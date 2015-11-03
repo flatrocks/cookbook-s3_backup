@@ -18,8 +18,8 @@ def expand_starred_items(items)
   all_databases = run_system_command("mysql -r -s -N -e 'SHOW DATABASES'").split("\n")
   expanded_items = []
   items.each do |item|
-    if item.split.first.end_with? '*'
-      prefix = item.split.first.chomp('*')
+    if item.split.first.end_with? '%'
+      prefix = item.split.first.chomp('%')
       expanded_items += all_databases.select {|db| db.start_with? prefix}.map {|db| item.split[1..-1].unshift(db).join(' ')}
     else
       expanded_items << item
