@@ -24,6 +24,10 @@ This file is used to list changes made in each version of the s3_asset_backup co
 -----
 - Fixed syslog logging.  Replaced the success_message resource attribute with a good fixed message, and rewrote the mysql script to work ok when there are duplicated databases and tables.
 
+0.2.4
+-----
+- Changed default backup prefix to '%Y-%m-%d' (e.g. "2015-11-04") because it makes more sense.
+
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
 
