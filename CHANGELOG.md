@@ -20,6 +20,10 @@ This file is used to list changes made in each version of the s3_asset_backup co
 -----
 - Fixed greivous error where the config.yml file was written with % as wildcard but the script file expected *.
 
+0.2.3
+-----
+- Fixed syslog logging.  Replaced the success_message resource attribute with a good fixed message, and rewrote the mysql script to work ok when there are duplicated databases and tables.
+
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
 

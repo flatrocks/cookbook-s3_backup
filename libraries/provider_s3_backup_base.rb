@@ -52,8 +52,7 @@ class Chef
               'time_prefix' => new_resource.s3_time_prefix
             },
             'log' => {
-              'ident' => new_resource.log_ident,
-              'success_message' => new_resource.log_success_message
+              'ident' => new_resource.log_ident
             },
             'backup_groups' => new_resource.backup_groups
           }.to_yaml

@@ -67,7 +67,6 @@ describe "test::s3_file_backup_resource" do
         "  time_prefix: '%d-%b-%Y'",
         "log:\n" +
         "  ident: s3_file_backup\n" +
-        "  success_message: \n",
         "backup_groups:\n" +
         "  default:\n" +
         "  - /some/file\n" +

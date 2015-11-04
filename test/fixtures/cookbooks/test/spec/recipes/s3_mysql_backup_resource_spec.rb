@@ -67,7 +67,6 @@ describe "test::s3_mysql_backup_resource" do
         "  time_prefix: '%d-%b-%Y'",
         "log:\n" +
         "  ident: s3_mysql_backup\n" +
-        "  success_message: \n",
         "backup_groups:\n" +
         "  default:\n" +
         "  - db1\n" +

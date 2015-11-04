@@ -34,9 +34,6 @@ class Chef
         def log_ident(arg = nil)
           set_or_return :log_ident, arg, kind_of: [String, NilClass], required: false, default: resource_name.to_s
         end
-        def log_success_message(arg = nil)
-          set_or_return :log_success_message, arg, kind_of: [String, NilClass], default: nil
-        end
 
         def cron(arg = nil)
           set_or_return :cron, arg, kind_of: Hash, default: Hash.new
