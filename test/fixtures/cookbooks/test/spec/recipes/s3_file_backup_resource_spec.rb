@@ -48,6 +48,23 @@ describe "test::s3_file_backup_resource" do
   end
 
   describe "the config.yml file" do
+    let(:expected_content) do
+      [
+         "s3:",
+        "  region: us-east-1",
+        "  access_key_id: my_access_key_id",
+        "  secret_access_key: my_secret_access_key",
+        "  bucket: my_bucket",
+        "  time_prefix: '%Y-%m-%d'",
+        "log:",
+        "  ident: s3_file_backup",
+        "backup_groups:",
+        "  default:",
+        "  - /some/file",
+        "  a_prefix:",
+        "  - /yet_another/file"
+      ]
+    end
     it "is created" do
       expect(subject).to create_file("/home/my_backup/config.yml")
     end
@@ -58,23 +75,12 @@ describe "test::s3_file_backup_resource" do
     end
     it "has the right content" do
       # each element, but not testing line order :-/
-      [
-         "s3:\n" +
-        "  region: us-east-1\n" +
-        "  access_key_id: my_access_key_id\n" +
-        "  secret_access_key: my_secret_access_key\n" +
-        "  bucket: my_bucket\n" +
-        "  time_prefix: '%d-%b-%Y'",
-        "log:\n" +
-        "  ident: s3_file_backup\n" +
-        "backup_groups:\n" +
-        "  default:\n" +
-        "  - /some/file\n" +
-        "  a_prefix:\n" +
-        "  - /yet_another/file\n"
-      ].each do |fragment|
+      expected_content.each do |fragment|
         expect(subject).to render_file("/home/my_backup/config.yml").with_content fragment
       end
+    end
+    it "is correct on the whole" do
+      expect(subject).to render_file("/home/my_backup/config.yml").with_content expected_content.join("\n")
     end
   end
 
